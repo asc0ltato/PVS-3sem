@@ -1,0 +1,24 @@
+#define LED_PIN 9
+String command;
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  while (Serial.available()) {
+    char incomingChar = Serial.read();
+    if (incomingChar != '\n') {
+      command += incomingChar; // Считываем символы в команду
+    } else {
+      command.toLowerCase(); // Приводим команду к нижнему регистру
+      if (command == "on") {
+        digitalWrite(LED_PIN, HIGH); // Включаем светодиод
+      } else if (command == "off") {
+        digitalWrite(LED_PIN, LOW); // Выключаем светодиод
+      }
+      command = ""; // Очищаем команду
+    }
+  }
+}

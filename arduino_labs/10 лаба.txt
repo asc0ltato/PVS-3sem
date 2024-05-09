@@ -1,0 +1,68 @@
+int LED=13;
+int LDR=0;
+int Poti=1;
+int cnt=0;
+
+void setup()
+{
+  pinMode(LED,OUTPUT);
+}
+
+void loop() {
+  // Проверяем, если считанное значение с LDR больше, чем считанное значение с Poti
+  if (analogRead(LDR) > analogRead(Poti)) cnt = 0;
+
+  // Повторно проверяем, если считанное значение с LDR больше, чем считанное значение с Poti,
+  // и если это так, увеличиваем счетчик cnt
+  if (analogRead(LDR) > analogRead(Poti)) cnt++;
+
+  // Проверяем, если счетчик cnt больше 300
+  if (cnt > 300) {
+    // Включаем светодиод
+    digitalWrite(LED, HIGH);
+    
+    // Ожидаем, пока значение считанное с LDR не станет меньше значения считанного с Poti,
+    // путем выполнения задержки в 5 секунд
+    do {
+      delay(5000);
+    } while (analogRead(LDR) < analogRead(Poti));
+
+    // Сбрасываем счетчик cnt в ноль и выключаем светодиод
+    cnt = 0;
+    digitalWrite(LED, LOW);
+  }
+
+  // Добавляем небольшую задержку в 10 миллисекунд перед следующей итерацией цикла
+  delay(10);
+}
+
+
+или так?
+
+#define LED 13
+#define LDR 0
+#define Poti 1
+short cnt = 0;
+
+void setup() 
+{
+  pinMode(LED,OUTPUT);
+}
+
+void loop() 
+{
+  
+  if(analogRead(LDR)>analogRead(Poti))cnt = 0;
+  if(analogRead(LDR)<analogRead(Poti))cnt++;
+
+  if(cnt>300)
+  {
+    digitalWrite(LED,HIGH);
+    do{
+      delay(5000);
+    }while(analogRead(LDR)<analogRead(Poti));
+    cnt = 0;
+  }
+  digitalWrite(LED,LOW);
+  delay(10);
+}
